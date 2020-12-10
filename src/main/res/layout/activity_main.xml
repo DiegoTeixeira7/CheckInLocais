@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/nameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="30dp"
+        android:text="Nome do local:" />
+
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextView"
+        android:layout_below="@id/nameText"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:completionThreshold="1" />
+
+    <TextView
+        android:id="@+id/categoriaText"
+        android:layout_below="@+id/autoCompleteTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="30dp"
+        android:text="Categoria do Local:" />
+
+    <Spinner
+        android:id="@+id/spinnerCategoria"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_below="@+id/categoriaText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:prompt="@string/texto_combo" />
+
+    <TextView
+        android:id="@+id/posText"
+        android:layout_below="@+id/spinnerCategoria"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Posicionamento Global" />
+
+    <LinearLayout
+        android:id="@+id/positionLat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/posText"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="10dp" >
+
+        <TextView
+            android:id="@+id/latText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:text="Latitude:" />
+
+        <TextView
+            android:id="@+id/latEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-20.234234234" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/positionLong"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/positionLat"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="10dp" >
+
+        <TextView
+            android:id="@+id/longText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="Longitude:" />
+
+        <TextView
+            android:id="@+id/longEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-42.234234234" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn-checkin"
+        android:layout_width="fill_parent"
+        android:layout_height="80dp"
+        android:layout_below="@+id/positionLong"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_centerHorizontal="true"
+        android:text="CHECK-IN"
+        android:onClick="checkin"/>
+
+
+</RelativeLayout>
+

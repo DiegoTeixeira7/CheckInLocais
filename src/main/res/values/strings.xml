@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">CheckInLocais</string>
+    <string name="texto_combo">Spinner</string>
+</resources>
