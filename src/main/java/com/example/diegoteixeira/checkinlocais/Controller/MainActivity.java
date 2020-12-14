@@ -29,48 +29,60 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public Criteria criteria;
     public String provider;
 
-    ArrayAdapter<String> adaptador;
-
-    ArrayList<String> empresas = new ArrayList<>();
-
-
-    private String[] planetas = new String[] { "Mercúrio", "Venus", "Terra", "Marte", "Júptier",
-            "Saturno", "Urano","Netuno", "Plutão" };
-
+    public ArrayAdapter<String> adaptador;
+    public ArrayList<String> locaisVisitados = new ArrayList<>();
+    public ArrayList<String> categoria = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // busca locais visitados no BD e popula arrayList para exibir no autoCompleteView
         Cursor c = BancoDadosSingleton.getInstance().buscar("Checkin", new String[]{"Local"}, "", "");
 
         while(c.moveToNext()){
             int L = c.getColumnIndex("Local");
-            empresas.add(c.getString(L));
+            locaisVisitados.add(c.getString(L));
         }
 
-       // Toast.makeText(this, empresas.get(0), Toast.LENGTH_LONG).show();
         c.close();
 
-        adaptador = new ArrayAdapter<String>(this,android.R.layout.select_dialog_item, empresas);
+        adaptador = new ArrayAdapter<String>(this,android.R.layout.select_dialog_item, locaisVisitados);
         AutoCompleteTextView Local = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
         Local.setAdapter(adaptador);
+
+        adaptador.setNotifyOnChange(false);
+
+        // busca categorias no BD e popula arrayList para exibir no autoCompleteView
+        c = BancoDadosSingleton.getInstance().buscar("Categoria", new String[]{"nome"}, "", "");
+
+        while(c.moveToNext()){
+            int nome = c.getColumnIndex("nome");
+            categoria.add(c.getString(nome));
+        }
+
+        c.close();
 
         Spinner combo = (Spinner) findViewById(R.id.spinnerCategoria);
         combo.setOnItemSelectedListener(this); //configura método de seleção
 
         //configura adaptador
-        adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, planetas);
+        adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categoria);
         adaptador.setDropDownViewResource(android.R.layout.simple_spinner_item);
 
         //informa qual é o adaptador
         combo.setAdapter(adaptador);
+
+        // Habilitar novamente a notificacao
+        adaptador.setNotifyOnChange(true);
+        // Notifica o Spinner de que houve mudanca no modelo
+        adaptador.notifyDataSetChanged();
     }
 
 
     public void onItemSelected(AdapterView parent, View v, int posicao, long id) {
-        Toast.makeText(this, "Item: " + planetas[posicao], Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Item: " + categoria.get(posicao), Toast.LENGTH_SHORT).show();
     }
 
     public void onNothingSelected(AdapterView arg0) { }
