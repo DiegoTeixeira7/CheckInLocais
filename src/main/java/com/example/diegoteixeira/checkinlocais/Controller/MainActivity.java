@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -19,44 +20,54 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.diegoteixeira.checkinlocais.R;
+import com.example.diegoteixeira.checkinlocais.Util.BancoDadosSingleton;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, LocationListener {
     public LocationListener lm;
     public Criteria criteria;
     public String provider;
 
+    ArrayAdapter<String> adaptador;
+
+    ArrayList<String> empresas = new ArrayList<>();
+
 
     private String[] planetas = new String[] { "Mercúrio", "Venus", "Terra", "Marte", "Júptier",
             "Saturno", "Urano","Netuno", "Plutão" };
 
-    private static final String[] ESTADOS = new String[] { "Acre", "Alagoas", "Amapá","Amazonas",
-            "Bahia", "Ceará", "Distrito Federal", "Goiás","Espírito Santo", "Maranhão", "Mato Grosso",
-            "Mato Grosso do Sul","Minas Gerais", "Pará", "Paraíba", "Paraná", "Pernambuco", "Piauí",
-            "Rio de Janeiro", "Rio Grandedo Norte", "Rio Grande do Sul","Rondônia", "Roraima",
-            "São Paulo", "Santa Catarina", "Sergipe","Tocantins"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Cria um ArrayAdapter para exibir os estados
-        ArrayAdapter<String> adaptador =
-                new ArrayAdapter<String>(this,android.R.layout.select_dialog_item, ESTADOS);
-        AutoCompleteTextView estatos = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
-        estatos.setAdapter(adaptador);
+        Cursor c = BancoDadosSingleton.getInstance().buscar("Checkin", new String[]{"Local"}, "", "");
+
+        while(c.moveToNext()){
+            int L = c.getColumnIndex("Local");
+            empresas.add(c.getString(L));
+        }
+
+       // Toast.makeText(this, empresas.get(0), Toast.LENGTH_LONG).show();
+        c.close();
+
+        adaptador = new ArrayAdapter<String>(this,android.R.layout.select_dialog_item, empresas);
+        AutoCompleteTextView Local = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
+        Local.setAdapter(adaptador);
 
         Spinner combo = (Spinner) findViewById(R.id.spinnerCategoria);
         combo.setOnItemSelectedListener(this); //configura método de seleção
 
         //configura adaptador
-        ArrayAdapter<String> adaptadorSpinner =
-                new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, planetas);
-        adaptadorSpinner.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, planetas);
+        adaptador.setDropDownViewResource(android.R.layout.simple_spinner_item);
 
         //informa qual é o adaptador
-        combo.setAdapter(adaptadorSpinner);
+        combo.setAdapter(adaptador);
     }
+
 
     public void onItemSelected(AdapterView parent, View v, int posicao, long id) {
         Toast.makeText(this, "Item: " + planetas[posicao], Toast.LENGTH_SHORT).show();
