@@ -1,9 +1,11 @@
-package com.example.diegoteixeira.checkinlocais;
+package com.example.diegoteixeira.checkinlocais.Controller;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.location.Criteria;
+import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,6 +17,8 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.example.diegoteixeira.checkinlocais.R;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, LocationListener {
     public LocationListener lm;
@@ -97,20 +101,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void checkin(View view) {
 
     }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+
+    }
 }
 
 // AIzaSyCK4U3KIbWkwxNVsHA8FwUbn4zKEO3H7E8
-
-//CREATE TABLE Checkin (Local TEXT PRIMARY KEY, qtdVisitas INTEGER
-//NOT NULL, cat INTEGER NOT NULL, latitude TEXT NOT NULL,
-//                          longitude TEXT NOT NULL, CONSTRAINT fkey0 FOREIGN KEY (cat)
-//    REFERENCES Categoria (idCategoria));
-//        CREATE TABLE Categoria (idCategoria INTEGER PRIMARY KEY
-//        AUTOINCREMENT, nome TEXT NOT NULL);
-//        INSERT INTO Categoria (nome) VALUES ('Restaurante');
-//        INSERT INTO Categoria (nome) VALUES ('Bar');
-//        INSERT INTO Categoria (nome) VALUES ('Cinema');
-//        INSERT INTO Categoria (nome) VALUES ('Universidade');
-//        INSERT INTO Categoria (nome) VALUES ('Estádio');
-//        INSERT INTO Categoria (nome) VALUES ('Parque');
-//        INSERT INTO Categoria (nome) VALUES ('Outros');

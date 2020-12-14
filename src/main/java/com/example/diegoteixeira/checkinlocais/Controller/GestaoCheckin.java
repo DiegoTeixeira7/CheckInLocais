@@ -1,14 +1,12 @@
-package com.example.diegoteixeira.checkinlocais;
+package com.example.diegoteixeira.checkinlocais.Controller;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.SubMenu;
-import android.widget.Toast;
 
-import static com.example.diegoteixeira.checkinlocais.MapaCheckin.VOLTAR;
+import com.example.diegoteixeira.checkinlocais.R;
 
 public class GestaoCheckin extends AppCompatActivity {
     public static final int VOLTAR = 1;

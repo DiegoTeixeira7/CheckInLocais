@@ -1,4 +1,4 @@
-package com.example.diegoteixeira.checkinlocais;
+package com.example.diegoteixeira.checkinlocais.Controller;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.widget.Toast;
+
+import com.example.diegoteixeira.checkinlocais.R;
 
 public class MapaCheckin extends AppCompatActivity {
     public static final int VOLTAR = 1;

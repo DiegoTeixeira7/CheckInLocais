@@ -1,10 +1,12 @@
-package com.example.diegoteixeira.checkinlocais;
+package com.example.diegoteixeira.checkinlocais.Controller;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.example.diegoteixeira.checkinlocais.R;
 
 public class Relatorio extends AppCompatActivity {
     public static final int VOLTAR = 1;
