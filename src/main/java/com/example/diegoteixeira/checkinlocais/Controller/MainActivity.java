@@ -32,11 +32,14 @@ import com.example.diegoteixeira.checkinlocais.R;
 import com.example.diegoteixeira.checkinlocais.Util.BancoDadosSingleton;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, LocationListener {
     public ArrayAdapter<String> adaptador;
     public ArrayList<String> locaisVisitados = new ArrayList<>();
     public ArrayList<String> categoria = new ArrayList<>();
+    public Map<String, Integer> map = new HashMap<String, Integer>();
 
     public LocationManager lm;
     public Criteria criteria;
@@ -45,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public int DISTANCIA_MIN_METROS = 0;
 
     private String localDigitado = "";
-    private String categoriaLocal = "";
+    private int categoriaLocal = -1;
     private String latitude = "";
     private String longitude = "";
 
@@ -74,11 +77,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         adaptador.setNotifyOnChange(false);
 
         // busca categorias no BD e popula arrayList para exibir no autoCompleteView
-        c = BancoDadosSingleton.getInstance().buscar("Categoria", new String[]{"nome"}, "", "");
+        c = BancoDadosSingleton.getInstance().buscar("Categoria", new String[]{"nome", "idCategoria"}, "", "");
 
         while (c.moveToNext()) {
             int nome = c.getColumnIndex("nome");
+            int idCategoria = c.getColumnIndex("idCategoria");
             categoria.add(c.getString(nome));
+            map.put(c.getString(nome), c.getInt(idCategoria));
         }
 
         c.close();
@@ -153,8 +158,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
     public void onItemSelected(AdapterView parent, View v, int posicao, long id) {
-        this.categoriaLocal = categoria.get(posicao);
-        //Toast.makeText(this, "Item: " + categoria.get(posicao), Toast.LENGTH_SHORT).show();
+        this.categoriaLocal = map.get(categoria.get(posicao));
+        Toast.makeText(this, "categoriaLocal: " + categoriaLocal, Toast.LENGTH_SHORT).show();
     }
 
     public void onNothingSelected(AdapterView arg0) { }
@@ -212,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         EditText autoC = findViewById(R.id.autoCompleteTextView);
         this.localDigitado = autoC.getText().toString();
 
-        if(localDigitado.equals("") || categoriaLocal.equals("")) {
+        if(localDigitado.equals("") || categoriaLocal == -1) {
             Toast.makeText(this, "Prenencha todos os campos!",Toast.LENGTH_SHORT).show();
         } else {
             requestPermissions();

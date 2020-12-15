@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,6 +13,7 @@ import android.view.SubMenu;
 import android.widget.Toast;
 
 import com.example.diegoteixeira.checkinlocais.R;
+import com.example.diegoteixeira.checkinlocais.Util.BancoDadosSingleton;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -115,10 +117,34 @@ public class MapaCheckin extends AppCompatActivity implements OnMapReadyCallback
             CameraUpdate update = CameraUpdateFactory.newLatLngZoom(MY_POSITION, 14);
             map.animateCamera(update);
 
+            marcarLugaresVisitados();
+
             //map.addMarker(new MarkerOptions().position(PC).title("Minha casa em PC"));
         } catch (Exception e) {
             Toast.makeText(this, "Problema com a latitute de longitude", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    private void marcarLugaresVisitados() {
+        Cursor c = BancoDadosSingleton.getInstance().buscar("Checkin ch, Categoria ca",
+                new String[]{"ch.Local local","ch.qtdVisitas qtVisit","ca.nome nome"},
+                "ch.cat=ca.idCategoria", "");
+
+        if(c.getCount() > 0){
+           String aux = "";
+            while (c.moveToNext()) {
+                int local = c.getColumnIndex("local");
+                int qtd = c.getColumnIndex("qtVisit");
+                int catNome = c.getColumnIndex("nome");
+
+                aux += "local: " + c.getString(local) + "qtd: " + c.getInt(qtd) + "catNome: " + c.getString(catNome) + "\n";
+            }
+            Toast.makeText(this, aux, Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "BD vazio", Toast.LENGTH_LONG).show();
+        }
+
+        c.close();
     }
 }
