@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void onItemSelected(AdapterView parent, View v, int posicao, long id) {
         this.categoriaLocal = map.get(categoria.get(posicao));
-        Toast.makeText(this, "categoriaLocal: " + categoriaLocal, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "categoriaLocal: " + categoriaLocal, Toast.LENGTH_SHORT).show();
     }
 
     public void onNothingSelected(AdapterView arg0) { }

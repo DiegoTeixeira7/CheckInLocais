@@ -114,12 +114,11 @@ public class MapaCheckin extends AppCompatActivity implements OnMapReadyCallback
 
             map = googleMap;
             map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(MY_POSITION, 14);
+            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(MY_POSITION, 10);
             map.animateCamera(update);
 
             marcarLugaresVisitados();
 
-            //map.addMarker(new MarkerOptions().position(PC).title("Minha casa em PC"));
         } catch (Exception e) {
             Toast.makeText(this, "Problema com a latitute de longitude", Toast.LENGTH_SHORT).show();
         }
@@ -128,21 +127,23 @@ public class MapaCheckin extends AppCompatActivity implements OnMapReadyCallback
 
     private void marcarLugaresVisitados() {
         Cursor c = BancoDadosSingleton.getInstance().buscar("Checkin ch, Categoria ca",
-                new String[]{"ch.Local local","ch.qtdVisitas qtVisit","ca.nome nome"},
+                new String[]{"ch.Local local","ch.qtdVisitas qtVisit","ch.latitude lat","ch.longitude longi","ca.nome nome"},
                 "ch.cat=ca.idCategoria", "");
 
         if(c.getCount() > 0){
-           String aux = "";
+
             while (c.moveToNext()) {
                 int local = c.getColumnIndex("local");
                 int qtd = c.getColumnIndex("qtVisit");
                 int catNome = c.getColumnIndex("nome");
+                int lat = c.getColumnIndex("lat");
+                int longi = c.getColumnIndex("longi");
 
-                aux += "local: " + c.getString(local) + "qtd: " + c.getInt(qtd) + "catNome: " + c.getString(catNome) + "\n";
+                LatLng pos = new LatLng(parseDouble(c.getString(lat)), parseDouble(c.getString(longi)));
+
+                map.addMarker(new MarkerOptions().position(pos).title(c.getString(local)).snippet("Categoria: " + c.getString(catNome) +" Visitas: "+c.getInt(qtd)));
             }
-            Toast.makeText(this, aux, Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(this, "BD vazio", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, aux, Toast.LENGTH_LONG).show();
         }
 
         c.close();
