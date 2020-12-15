@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -40,6 +41,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public String provider;
     public int TEMPO_REQUISICAO_LATLONG = 5000;
     public int DISTANCIA_MIN_METROS = 0;
+
+    private String localDigitado = "";
+    private String categoriaLocal = "";
+    private String latitude = "";
+    private String longitude = "";
 
     private final int LOCATION_PERMISSION = 1;
 
@@ -142,7 +148,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
     public void onItemSelected(AdapterView parent, View v, int posicao, long id) {
-        Toast.makeText(this, "Item: " + categoria.get(posicao), Toast.LENGTH_SHORT).show();
+        this.categoriaLocal = categoria.get(posicao);
+        //Toast.makeText(this, "Item: " + categoria.get(posicao), Toast.LENGTH_SHORT).show();
     }
 
     public void onNothingSelected(AdapterView arg0) { }
@@ -182,16 +189,29 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void checkin(View view) {
+        if(latitude.equals("") || longitude.equals("")) {
+            Log.d("LOCATION", "Posição estática");
+            latitude = "-20.755921";
+            longitude = "-42.8804686";
+        }
 
+        EditText autoC = findViewById(R.id.autoCompleteTextView);
+        this.localDigitado = autoC.getText().toString();
+
+        Toast.makeText(this, "latitude: "+latitude+"\n"+"longitude: "+longitude+"\n"
+                +"localDigitado: "+localDigitado+"\n"+"categoriaLocal: "+categoriaLocal+"\n", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
         // obtem atributos na localização atual
-        double latitude = location.getLatitude();
-        double longitude = location.getLongitude();
+        double lat = location.getLatitude();
+        double longi = location.getLongitude();
 
-        Toast.makeText(this, "latitude: "+latitude+"longitude: "+longitude, Toast.LENGTH_LONG).show();
+        this.latitude = String.valueOf(lat);
+        this.longitude = String.valueOf(longi);
+
+        Toast.makeText(this, "latitude: "+lat+"longitude: "+longi, Toast.LENGTH_LONG).show();
     }
 
     @Override
