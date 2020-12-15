@@ -1,6 +1,7 @@
 package com.example.diegoteixeira.checkinlocais.Controller;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +12,18 @@ import android.view.SubMenu;
 import android.widget.Toast;
 
 import com.example.diegoteixeira.checkinlocais.R;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapaCheckin extends AppCompatActivity {
+import static java.lang.Double.parseDouble;
+
+public class MapaCheckin extends AppCompatActivity implements OnMapReadyCallback {
     public static final int VOLTAR = 1;
     public static final int GESTAO = 2;
     public static final int LUGARES = 3;
@@ -20,8 +31,12 @@ public class MapaCheckin extends AppCompatActivity {
     public static final int NORMAL = 5;
     public static final int HIBRIDO = 6;
 
+    public Marker marker;
+
     private String latitude = "";
     private String longitude = "";
+
+    private GoogleMap map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +47,8 @@ public class MapaCheckin extends AppCompatActivity {
         Intent it = getIntent();
         latitude =  it.getStringExtra("latitude");
         longitude =  it.getStringExtra("longitude");
+
+        ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMapAsync((OnMapReadyCallback) this);
 
     }
 
@@ -88,4 +105,20 @@ public class MapaCheckin extends AppCompatActivity {
         return false;
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        try {
+            LatLng MY_POSITION = new LatLng(parseDouble(latitude), parseDouble(longitude));
+
+            map = googleMap;
+            map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(MY_POSITION, 14);
+            map.animateCamera(update);
+
+            //map.addMarker(new MarkerOptions().position(PC).title("Minha casa em PC"));
+        } catch (Exception e) {
+            Toast.makeText(this, "Problema com a latitute de longitude", Toast.LENGTH_SHORT).show();
+        }
+
+    }
 }
