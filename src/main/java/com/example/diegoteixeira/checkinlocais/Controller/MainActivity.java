@@ -191,27 +191,43 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void checkin(View view) {
-        if(latitude.equals("") || longitude.equals("")) {
-            Log.d("LOCATION", "Posição estática");
-            latitude = "-20.755921";
-            longitude = "-42.8804686";
-        }
-
         EditText autoC = findViewById(R.id.autoCompleteTextView);
         this.localDigitado = autoC.getText().toString();
+
+        if(localDigitado.equals("") || categoriaLocal.equals("")) {
+            Toast.makeText(this, "Prenencha todos os campos!",Toast.LENGTH_SHORT).show();
+        } else {
+            //Obtem atualizações de posição
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                        LOCATION_PERMISSION);
+                Log.i("Permission", "Pede a permissão");
+                return;
+            }
+
+            if(latitude.equals("") || longitude.equals("")) {
+                Log.d("LOCATION", "Posição estática");
+                latitude = "-20.755921";
+                longitude = "-42.8804686";
+                Toast.makeText(this, "Posicionamento global não localizado, feito posicionamento estático!",Toast.LENGTH_SHORT).show();
+            }
+            //else {
 
 //        Toast.makeText(this, "latitude: "+latitude+"\n"+"longitude: "+longitude+"\n"
 //                +"localDigitado: "+localDigitado+"\n"+"categoriaLocal: "+categoriaLocal+"\n", Toast.LENGTH_SHORT).show();
 
-        int busca = busca();
+                int busca = busca();
 
-        if(busca == -1){
-            inserir();
-        } else {
-            atualizar(busca);
+                if(busca == -1){
+                    inserir();
+                } else {
+                    atualizar(busca);
+                }
+
+                recreate();
+            //}
         }
-
-        recreate();
     }
 
     @Override
