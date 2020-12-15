@@ -33,10 +33,10 @@ public class MapaCheckin extends AppCompatActivity implements OnMapReadyCallback
     public static final int NORMAL = 5;
     public static final int HIBRIDO = 6;
 
-    public Marker marker;
-
     private String latitude = "";
     private String longitude = "";
+
+    public LatLng MY_POSITION = new LatLng(0, 0);
 
     private GoogleMap map;
 
@@ -49,6 +49,8 @@ public class MapaCheckin extends AppCompatActivity implements OnMapReadyCallback
         Intent it = getIntent();
         latitude =  it.getStringExtra("latitude");
         longitude =  it.getStringExtra("longitude");
+
+        MY_POSITION = new LatLng(parseDouble(latitude), parseDouble(longitude));
 
         ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMapAsync((OnMapReadyCallback) this);
 
@@ -72,33 +74,32 @@ public class MapaCheckin extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case VOLTAR:
-                finish();
-                return true;
-
             case GESTAO:
-                String titulo2 = item.getTitle().toString();
-                Toast.makeText(this, "Item2: " + titulo2, Toast.LENGTH_SHORT).show();
+                Intent it2 = new Intent(this, GestaoCheckin.class);
+                startActivity(it2);
                 return true;
 
             case LUGARES:
-                String titulo3 = item.getTitle().toString();
-                Toast.makeText(this, "Item3: " + titulo3, Toast.LENGTH_SHORT).show();
-                return true;
-
-            case TIPOS:
-                String titulo4 = item.getTitle().toString();
-                Toast.makeText(this, "Item4: " + titulo4, Toast.LENGTH_SHORT).show();
+                Intent it3 = new Intent(this, Relatorio.class);
+                startActivity(it3);
                 return true;
 
             case NORMAL:
-                String titulo5 = item.getTitle().toString();
-                Toast.makeText(this, "Item5: " + titulo5, Toast.LENGTH_SHORT).show();
+                map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                CameraUpdate update = CameraUpdateFactory.newLatLngZoom(MY_POSITION, 17);
+                map.animateCamera(update);
+
                 return true;
 
             case HIBRIDO:
-                String titulo6 = item.getTitle().toString();
-                Toast.makeText(this, "Item6: " + titulo6, Toast.LENGTH_SHORT).show();
+                map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                CameraUpdate update2 = CameraUpdateFactory.newLatLngZoom(MY_POSITION, 17);
+                map.animateCamera(update2);
+
+                return true;
+
+            case VOLTAR:
+                finish();
                 return true;
 
             default:
@@ -110,11 +111,10 @@ public class MapaCheckin extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         try {
-            LatLng MY_POSITION = new LatLng(parseDouble(latitude), parseDouble(longitude));
 
             map = googleMap;
             map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(MY_POSITION, 10);
+            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(MY_POSITION, 17);
             map.animateCamera(update);
 
             marcarLugaresVisitados();
@@ -145,6 +145,8 @@ public class MapaCheckin extends AppCompatActivity implements OnMapReadyCallback
             }
             //Toast.makeText(this, aux, Toast.LENGTH_LONG).show();
         }
+
+        Toast.makeText(this, "Nenhum local encontradao!", Toast.LENGTH_LONG).show();
 
         c.close();
     }
