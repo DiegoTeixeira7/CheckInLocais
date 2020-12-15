@@ -24,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.diegoteixeira.checkinlocais.R;
@@ -210,6 +211,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         this.latitude = String.valueOf(lat);
         this.longitude = String.valueOf(longi);
+
+        TextView la = findViewById(R.id.latEdit);
+        TextView lon = findViewById(R.id.longEdit);
+
+        la.setText(this.latitude);
+        lon.setText(this.latitude);
 
         Toast.makeText(this, "latitude: "+lat+"longitude: "+longi, Toast.LENGTH_LONG).show();
     }

@@ -71,7 +71,7 @@
             android:id="@+id/latEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="-20.234234234" />
+            android:text="-20.755921" />
 
     </LinearLayout>
 
@@ -96,7 +96,7 @@
             android:id="@+id/longEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="-42.234234234" />
+            android:text="-42.8804686" />
 
     </LinearLayout>
 
