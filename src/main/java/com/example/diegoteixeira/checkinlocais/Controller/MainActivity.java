@@ -257,19 +257,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private int busca() {
-        Cursor c = BancoDadosSingleton.getInstance().buscar("Checkin", new String[]{"Local"}, "Local='"+localDigitado+"'", "");
-        Log.d("Test", "Aqui 1");
+        Cursor c = BancoDadosSingleton.getInstance().buscar("Checkin", new String[]{"qtdVisitas"}, "Local='"+localDigitado+"'", "");
+
         if(c.getCount() == 1){
             int qtd = 0;
             while (c.moveToNext()) {
-                Log.d("Test", "Aqui 2");
                 int L = c.getColumnIndex("qtdVisitas");
-                Log.d("Test", "L:"+L);
                 qtd = c.getInt(L);
-                Log.d("Test", "Aqui 4");
-
             }
-            Log.d("Test", "Aqui 5");
+
             c.close();
             return qtd;
         } else {
@@ -293,10 +289,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private void atualizar(int qtdVisitas) {
         ContentValues valores = new ContentValues();
         valores.put("qtdVisitas", qtdVisitas + 1);
-        Log.d("Test", "Aqui 3");
 
         BancoDadosSingleton.getInstance().atualizar("Checkin", valores, "Local='"+localDigitado+"'");
-        Log.d("Test", "Aqui 4");
     }
 }
 
