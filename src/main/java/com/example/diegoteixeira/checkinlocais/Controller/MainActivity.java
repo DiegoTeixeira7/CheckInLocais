@@ -127,12 +127,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         } else {
             Log.i("PROVEDOR", "Está sendo utilizado o provedor: " + provider);
 
-            //Obtem atualizações de posição
+            requestPermissions();
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
-                        LOCATION_PERMISSION);
-                Log.i("Permission", "Pede a permissão");
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
                 return;
             }
             lm.requestLocationUpdates(provider, TEMPO_REQUISICAO_LATLONG, DISTANCIA_MIN_METROS, this);
@@ -169,8 +172,23 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         switch (item.getItemId()) {
             case R.id.action_mapa:
-                Intent it = new Intent(this, MapaCheckin.class);
-                startActivity(it);
+                requestPermissions();
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "Posicionamento global não localizado, feito posicionamento estático!",Toast.LENGTH_SHORT).show();
+                } else {
+                    if(latitude.equals("") || longitude.equals("")) {
+                        Log.d("LOCATION", "Posição estática");
+                        latitude = "-20.755921";
+                        longitude = "-42.8804686";
+                    }
+                    // else {
+                        Intent it = new Intent(this, MapaCheckin.class);
+                        it.putExtra("latitude", latitude);
+                        it.putExtra("longitude", longitude);
+                        startActivity(it);
+                   // }
+                }
+
                 break;
 
             case R.id.action_gestao:
@@ -197,14 +215,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         if(localDigitado.equals("") || categoriaLocal.equals("")) {
             Toast.makeText(this, "Prenencha todos os campos!",Toast.LENGTH_SHORT).show();
         } else {
-            //Obtem atualizações de posição
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
-                        LOCATION_PERMISSION);
-                Log.i("Permission", "Pede a permissão");
-                return;
-            }
+            requestPermissions();
 
             if(latitude.equals("") || longitude.equals("")) {
                 Log.d("LOCATION", "Posição estática");
@@ -246,6 +257,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         lon.setText(this.latitude);
 
         Toast.makeText(this, "latitude: "+lat+"longitude: "+longi, Toast.LENGTH_LONG).show();
+    }
+
+    private void requestPermissions() {
+        //Obtem atualizações de posição
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                    LOCATION_PERMISSION);
+            Log.i("Permission", "Pede a permissão");
+            return;
+        }
     }
 
     @Override
