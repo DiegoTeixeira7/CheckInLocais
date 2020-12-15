@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -199,8 +200,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         EditText autoC = findViewById(R.id.autoCompleteTextView);
         this.localDigitado = autoC.getText().toString();
 
-        Toast.makeText(this, "latitude: "+latitude+"\n"+"longitude: "+longitude+"\n"
-                +"localDigitado: "+localDigitado+"\n"+"categoriaLocal: "+categoriaLocal+"\n", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "latitude: "+latitude+"\n"+"longitude: "+longitude+"\n"
+//                +"localDigitado: "+localDigitado+"\n"+"categoriaLocal: "+categoriaLocal+"\n", Toast.LENGTH_SHORT).show();
+
+        int busca = busca();
+
+        if(busca == -1){
+            inserir();
+        } else {
+            atualizar(busca);
+        }
+
+        recreate();
     }
 
     @Override
@@ -243,6 +254,49 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void onStatusChanged(String provider, int status, Bundle extras){
         Log.d("LOCATION", "Provedor mudou de estação");
+    }
+
+    private int busca() {
+        Cursor c = BancoDadosSingleton.getInstance().buscar("Checkin", new String[]{"Local"}, "Local='"+localDigitado+"'", "");
+        Log.d("Test", "Aqui 1");
+        if(c.getCount() == 1){
+            int qtd = 0;
+            while (c.moveToNext()) {
+                Log.d("Test", "Aqui 2");
+                int L = c.getColumnIndex("qtdVisitas");
+                Log.d("Test", "L:"+L);
+                qtd = c.getInt(L);
+                Log.d("Test", "Aqui 4");
+
+            }
+            Log.d("Test", "Aqui 5");
+            c.close();
+            return qtd;
+        } else {
+            c.close();
+            return -1;
+        }
+
+    }
+
+    private void inserir() {
+        ContentValues valores = new ContentValues();
+        valores.put("Local", localDigitado);
+        valores.put("qtdVisitas", 1);
+        valores.put("cat", categoriaLocal);
+        valores.put("latitude", latitude);
+        valores.put("longitude", longitude);
+
+        BancoDadosSingleton.getInstance().inserir("Checkin", valores);
+    }
+
+    private void atualizar(int qtdVisitas) {
+        ContentValues valores = new ContentValues();
+        valores.put("qtdVisitas", qtdVisitas + 1);
+        Log.d("Test", "Aqui 3");
+
+        BancoDadosSingleton.getInstance().atualizar("Checkin", valores, "Local='"+localDigitado+"'");
+        Log.d("Test", "Aqui 4");
     }
 }
 
