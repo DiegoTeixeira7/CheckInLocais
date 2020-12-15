@@ -331,5 +331,3 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         BancoDadosSingleton.getInstance().atualizar("Checkin", valores, "Local='"+localDigitado+"'");
     }
 }
-
-// AIzaSyCK4U3KIbWkwxNVsHA8FwUbn4zKEO3H7E8

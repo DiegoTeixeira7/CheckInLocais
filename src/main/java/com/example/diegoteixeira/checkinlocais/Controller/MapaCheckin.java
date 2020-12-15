@@ -2,6 +2,7 @@ package com.example.diegoteixeira.checkinlocais.Controller;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,11 +20,19 @@ public class MapaCheckin extends AppCompatActivity {
     public static final int NORMAL = 5;
     public static final int HIBRIDO = 6;
 
+    private String latitude = "";
+    private String longitude = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapa_checkin);
         setTitle("MapaCheckin");
+
+        Intent it = getIntent();
+        latitude =  it.getStringExtra("latitude");
+        longitude =  it.getStringExtra("longitude");
+
     }
 
     @Override
