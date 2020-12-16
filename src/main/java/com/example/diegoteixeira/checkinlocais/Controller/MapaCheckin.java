@@ -144,9 +144,9 @@ public class MapaCheckin extends AppCompatActivity implements OnMapReadyCallback
                 map.addMarker(new MarkerOptions().position(pos).title(c.getString(local)).snippet("Categoria: " + c.getString(catNome) +" Visitas: "+c.getInt(qtd)));
             }
             //Toast.makeText(this, aux, Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Nenhum local encontradao!", Toast.LENGTH_LONG).show();
         }
-
-        Toast.makeText(this, "Nenhum local encontradao!", Toast.LENGTH_LONG).show();
 
         c.close();
     }

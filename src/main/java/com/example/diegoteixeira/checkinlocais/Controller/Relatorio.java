@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -41,14 +43,22 @@ public class Relatorio extends AppCompatActivity {
                 text.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT));
                 text.setText(c.getString(local));
+                layout.setPadding(0,0,450,0);
                 layout.addView(text);
+
+                LinearLayout.LayoutParams l2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
                 TextView text2 = new TextView(this);
                 text2.setPadding(0,27,0,25);
                 //é obrigatório o layout_width e layout_height
-                text2.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT));
+                text2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT));
                 text2.setText(String.valueOf(c.getInt(qtdV)));
+
+                l2.gravity = Gravity.RIGHT;
+                layout2.setPadding(0,0,15,0);
+                text2.setLayoutParams(l2);
+
                 layout2.addView(text2);
             }
         }

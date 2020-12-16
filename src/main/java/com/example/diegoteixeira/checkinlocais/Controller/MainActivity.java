@@ -179,19 +179,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case R.id.action_mapa:
                 requestPermissions();
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "Posicionamento global não localizado, feito posicionamento estático!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Posicionamento global não localizado!",Toast.LENGTH_SHORT).show();
                 } else {
                     if(latitude.equals("") || longitude.equals("")) {
                         Log.d("LOCATION", "Posição estática");
-                        latitude = "-20.755921";
-                        longitude = "-42.8804686";
+                        Toast.makeText(this, "Posicionamento global não localizado!",Toast.LENGTH_SHORT).show();
+                        //latitude = "-20.755921";
+                        //longitude = "-42.8804686";
                     }
-                    // else {
+                    else {
                         Intent it = new Intent(this, MapaCheckin.class);
                         it.putExtra("latitude", latitude);
                         it.putExtra("longitude", longitude);
                         startActivity(it);
-                   // }
+                    }
                 }
 
                 break;
@@ -223,15 +224,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             requestPermissions();
 
             if(latitude.equals("") || longitude.equals("")) {
-                Log.d("LOCATION", "Posição estática");
-                latitude = "-20.755921";
-                longitude = "-42.8804686";
-                Toast.makeText(this, "Posicionamento global não localizado, feito posicionamento estático!",Toast.LENGTH_SHORT).show();
+                //Log.d("LOCATION", "Posição estática");
+                //latitude = "-20.755921";
+                //longitude = "-42.8804686";
+                Toast.makeText(this, "Posicionamento global não localizado!",Toast.LENGTH_SHORT).show();
             }
-            //else {
+            else {
 
-//        Toast.makeText(this, "latitude: "+latitude+"\n"+"longitude: "+longitude+"\n"
-//                +"localDigitado: "+localDigitado+"\n"+"categoriaLocal: "+categoriaLocal+"\n", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "latitude: "+latitude+"\n"+"longitude: "+longitude+"\n"
+//                        +"localDigitado: "+localDigitado+"\n"+"categoriaLocal: "+categoriaLocal+"\n", Toast.LENGTH_SHORT).show();
 
                 int busca = busca();
 
@@ -242,7 +243,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
 
                 recreate();
-            //}
+            }
         }
     }
 
@@ -261,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         la.setText(this.latitude);
         lon.setText(this.latitude);
 
-        Toast.makeText(this, "latitude: "+lat+"longitude: "+longi, Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "latitude: "+lat+"longitude: "+longi, Toast.LENGTH_LONG).show();
     }
 
     private void requestPermissions() {

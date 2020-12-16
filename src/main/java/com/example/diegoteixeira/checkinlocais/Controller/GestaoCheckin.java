@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,8 +32,8 @@ public class GestaoCheckin extends AppCompatActivity {
         setContentView(R.layout.activity_gestao_checkin);
         setTitle("GestaoCheckin");
 
-        LinearLayout layout = (LinearLayout) findViewById(R.id.layoutConteudo);
-        LinearLayout layout2 = (LinearLayout) findViewById(R.id.layoutDeletar);
+        LinearLayout layout = findViewById(R.id.layoutConteudo);
+        LinearLayout layout2 = findViewById(R.id.layoutDeletar);
 
         Cursor c = BancoDadosSingleton.getInstance().buscar("Checkin",
                 new String[]{"Local"}, "", "Local");
@@ -47,14 +49,20 @@ public class GestaoCheckin extends AppCompatActivity {
                 text.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT));
                 text.setText(c.getString(local));
+
                 layout.addView(text);
+
+                LinearLayout.LayoutParams l2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
                 ImageButton btn = new ImageButton(this);
                 btn.setTag(c.getString(local));
                 btn.setImageResource(R.drawable.ic_baseline_delete_forever_24);
-                btn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT));
+                btn.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT));
 
+
+                l2.gravity = Gravity.RIGHT;
+                layout2.setPadding(0,0,15,0);
 
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -62,7 +70,7 @@ public class GestaoCheckin extends AppCompatActivity {
                         deletarC(v);
                     }
                 });
-                layout.setVerticalGravity(4);
+                btn.setLayoutParams(l2);
                 layout2.addView(btn);
             }
         }
