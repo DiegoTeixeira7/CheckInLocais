@@ -50,25 +50,3 @@ public class GestaoCheckin extends AppCompatActivity {
         return false;
     }
 }
-
-//<LinearLayout
-//            android:layout_width="match_parent"
-//                    android:layout_height="wrap_content"
-//                    android:orientation="horizontal">
-//
-//<TextView
-//                android:id="@+id/textConteudo"
-//                        android:layout_width="wrap_content"
-//                        android:layout_height="wrap_content"
-//                        android:gravity="center"
-//                        android:text="LOCAL" />
-//
-//<TextView
-//                android:id="@+id/textDeletar"
-//                        android:layout_width="wrap_content"
-//                        android:layout_height="wrap_content"
-//                        android:gravity="center"
-//                        android:text="Excluir" />
-//
-//
-//</LinearLayout>
