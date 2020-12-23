@@ -20,10 +20,9 @@ Este projeto foi desenvolvido com as seguintes tecnologias:
 ### :arrow_forward: Em Execução:
 
 <p align="center">
- <img alt="Demontração Checkin" src="assets/" width="404px" heigth="720px">
- <img alt="Demontração Checkin" src="assets/" width="404px" heigth="720px">
- <img alt="Demontração Checkin" src="assets/" width="404px" heigth="720px">
- <img alt="Demontração Checkin" src="assets/" width="404px" heigth="720px">
+ <img alt="Demontração Checkin" src="assets/checkin" width="404px" heigth="720px">
+ <img alt="Demontração Checkin" src="assets/mapa" width="404px" heigth="720px">
+ <img alt="Demontração Checkin" src="assets/gestao" width="404px" heigth="720px">
 </p>
 
 ### :information_source: Como usar:
