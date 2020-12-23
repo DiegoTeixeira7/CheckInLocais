@@ -6,7 +6,7 @@ de mapa de check-in exibe cada local já visitado pelo usuário como um marcador
 respectiva posição global. Na tela de gestão de check-in será possível o usuário visualizar uma lista
 com todos os lugares que ele já visitou. Na tela de relatório de lugares mais visitados será possível
 o usuário visualizar uma lista com todos os lugares que ele já visitou acompanhados pela quantidade de
-vezes que o usuário visitou cada lugar
+vezes que ele visitou cada lugar.
 
 ## :computer: Tecnologias
 
