@@ -36,3 +36,6 @@ $ git clone https://github.com/DiegoTeixeira7/CheckInLocais.git
 # Abra o projeto em seu Android Studio e execute
 
 ```
+
+### :memo: Licença
+Este projeto está sob a licença do MIT. Consulte a [LICENSE](https://github.com/DiegoTeixeira7/CheckInLocais/blob/master/LICENSE) para obter mais informações.
